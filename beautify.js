@@ -603,6 +603,22 @@ function js_beautify(js_source_text, options) {
             }
         }
 
+        // BEGIN hack to pass e4x-literals untouched through the pretty-printing
+        function isXml() {
+            var xmlStr = input.slice(parser_pos - 1);
+            return !!xmlStr.match(/^<[a-zA-Z:0-9]+\s*([a-zA-Z:0-9]+="[^"]*"\s*)*\/?\s*>/);
+        }
+        function skipXml() {
+            // TODO - development in progress
+            console.log("foundDoc", input.slice(parser_pos -1, parser_pos+10));
+            parser_pos += 3;
+            return ["foo bar", "TK_COMMENT"];
+        }
+        if (c === '<' && isXml()) {
+            return skipXml();
+        }
+        // END hack to pass e4x-literals untouched through the pretty-printing
+
         if (c === '<' && input.substring(parser_pos - 1, parser_pos + 3) === '<!--') {
             parser_pos += 3;
             c = '<!--';
