@@ -631,8 +631,8 @@ function js_beautify(js_source_text, options) {
                 } 
                 var xmlLength = match.index + match[0].length;
                 console.log(xmlLength);
-                parser_pos += xmlLength;
-                return [xmlStr.slice(0, xmlLength), "TK_COMMENT"];
+                parser_pos += xmlLength - 1;
+                return [xmlStr.slice(0, xmlLength), "TK_WORD"];
             };
         }
         // END hack to pass e4x-literals untouched through the pretty-printing
