@@ -612,9 +612,9 @@ function js_beautify(js_source_text, options) {
                 var rootTag = match[2];
                 var depth = 0;
                 while(match) {
-                    var isEndTag = !!match[1]
+                    var isEndTag = !!match[1];
                     var tagName = match[2];
-                    var isSingletonTag = !!match[match.length - 1]
+                    var isSingletonTag = !!match[match.length - 1];
                     if(tagName === rootTag && !isSingletonTag) {
                         if(isEndTag) {
                             --depth;
