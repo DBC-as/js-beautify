@@ -616,7 +616,6 @@ function js_beautify(js_source_text, options) {
                     var isEndTag = !!match[1]
                     var tagName = match[2];
                     var isSingletonTag = !!match[match.length - 1]
-                    //console.log(tagName, rootTag, isSingletonTag, isEndTag);
                     if(tagName === rootTag && !isSingletonTag) {
                         if(isEndTag) {
                             --depth;
@@ -630,7 +629,6 @@ function js_beautify(js_source_text, options) {
                     match = xmlRegExp.exec(xmlStr);
                 } 
                 var xmlLength = match.index + match[0].length;
-                console.log(xmlLength);
                 parser_pos += xmlLength - 1;
                 return [xmlStr.slice(0, xmlLength), "TK_WORD"];
             };
