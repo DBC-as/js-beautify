@@ -608,25 +608,25 @@ function js_beautify(js_source_text, options) {
             var xmlRegExp = /<(\/?)([a-zA-Z:0-9]+)\s*([a-zA-Z:0-9]+="[^"]*"\s*)*(\/?)\s*>/g;
             var xmlStr = input.slice(parser_pos - 1);
             var match = xmlRegExp.exec(xmlStr);
-            if(match && match.index === 0) {
+            if (match && match.index === 0) {
                 var rootTag = match[2];
                 var depth = 0;
-                while(match) {
-                    var isEndTag = !!match[1];
+                while (match) {
+                    var isEndTag = !! match[1];
                     var tagName = match[2];
-                    var isSingletonTag = !!match[match.length - 1];
-                    if(tagName === rootTag && !isSingletonTag) {
-                        if(isEndTag) {
+                    var isSingletonTag = !! match[match.length - 1];
+                    if (tagName === rootTag && !isSingletonTag) {
+                        if (isEndTag) {
                             --depth;
                         } else {
                             ++depth;
                         }
                     }
-                    if(depth <= 0) {
+                    if (depth <= 0) {
                         break;
                     }
                     match = xmlRegExp.exec(xmlStr);
-                } 
+                }
                 var xmlLength = match.index + match[0].length;
                 parser_pos += xmlLength - 1;
                 return [xmlStr.slice(0, xmlLength), "TK_WORD"];
