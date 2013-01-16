@@ -604,18 +604,36 @@ function js_beautify(js_source_text, options) {
         }
 
         // BEGIN hack to pass e4x-literals untouched through the pretty-printing
-        function isXml() {
+        xmlRegExp = /<(\/?)([a-zA-Z:0-9]+)\s*([a-zA-Z:0-9]+="[^"]*"\s*)*(\/?)\s*>/g;
+        if (c === '<') {
             var xmlStr = input.slice(parser_pos - 1);
-            return !!xmlStr.match(/^<[a-zA-Z:0-9]+\s*([a-zA-Z:0-9]+="[^"]*"\s*)*\/?\s*>/);
-        }
-        function skipXml() {
-            // TODO - development in progress
-            console.log("foundDoc", input.slice(parser_pos -1, parser_pos+10));
-            parser_pos += 3;
-            return ["foo bar", "TK_COMMENT"];
-        }
-        if (c === '<' && isXml()) {
-            return skipXml();
+            var match = xmlRegExp.exec(xmlStr);
+            var first = true;
+            if(match && match.index === 0) {
+                var rootTag = match[2];
+                var depth = 0;
+                while(match) {
+                    var isEndTag = !!match[1]
+                    var tagName = match[2];
+                    var isSingletonTag = !!match[match.length - 1]
+                    //console.log(tagName, rootTag, isSingletonTag, isEndTag);
+                    if(tagName === rootTag && !isSingletonTag) {
+                        if(isEndTag) {
+                            --depth;
+                        } else {
+                            ++depth;
+                        }
+                    }
+                    if(depth <= 0) {
+                        break;
+                    }
+                    match = xmlRegExp.exec(xmlStr);
+                } 
+                var xmlLength = match.index + match[0].length;
+                console.log(xmlLength);
+                parser_pos += xmlLength;
+                return [xmlStr.slice(0, xmlLength), "TK_COMMENT"];
+            };
         }
         // END hack to pass e4x-literals untouched through the pretty-printing
 
