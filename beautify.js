@@ -604,8 +604,8 @@ function js_beautify(js_source_text, options) {
         }
 
         // BEGIN hack to pass e4x-literals untouched through the pretty-printing
-        xmlRegExp = /<(\/?)([a-zA-Z:0-9]+)\s*([a-zA-Z:0-9]+="[^"]*"\s*)*(\/?)\s*>/g;
         if (c === '<') {
+            var xmlRegExp = /<(\/?)([a-zA-Z:0-9]+)\s*([a-zA-Z:0-9]+="[^"]*"\s*)*(\/?)\s*>/g;
             var xmlStr = input.slice(parser_pos - 1);
             var match = xmlRegExp.exec(xmlStr);
             var first = true;
