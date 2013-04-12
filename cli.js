@@ -22,6 +22,8 @@ var fs = require('fs'),
         "break_chained_methods": Boolean,
         "keep_array_indentation": Boolean,
         "unescape_strings": Boolean,
+        "e4x": Boolean,
+        "pad_in_paren": Boolean,
         // CLI
         "version": Boolean,
         "help": Boolean,
@@ -45,6 +47,8 @@ var fs = require('fs'),
         "B": ["--break_chained_methods"],
         "k": ["--keep_array_indentation"],
         "x": ["--unescape_strings"],
+        "X": ["--e4x"],
+        "P": ["--pad_in_paren"],
         // non-dasherized hybrid shortcuts
         "good-stuff": [
             "--keep_array_indentation",
@@ -123,6 +127,8 @@ function usage(err) {
         '  -k, --keep-array-indentation  Preserve array indentation',
         '  -x, --unescape-strings        Decode printable characters encoded in xNN notation',
         '  -g, --good-stuff              Warm the cockles of Crockford\'s heart',
+        '  -X  --e4x                     Pass E4X XML-literals untouched through beautification',
+        '  -P  --pad-in-paren            Pad with spaces inside parens, ie. f( x, y )',
         ''
     ];
 

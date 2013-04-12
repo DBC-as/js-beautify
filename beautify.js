@@ -603,8 +603,8 @@ function js_beautify(js_source_text, options) {
             }
         }
 
-        // BEGIN hack to pass e4x-literals untouched through the pretty-printing
-        if (c === '<') {
+        if (options.e4x && c === '<') {
+            // pass e4x-literals untouched through the pretty-printing
             var xmlRegExp = /<(\/?)([a-zA-Z:0-9]+)\s*([a-zA-Z:0-9]+="[^"]*"\s*)*(\/?)\s*>/g;
             var xmlStr = input.slice(parser_pos - 1);
             var match = xmlRegExp.exec(xmlStr);
@@ -632,7 +632,6 @@ function js_beautify(js_source_text, options) {
                 return [xmlStr.slice(0, xmlLength), "TK_WORD"];
             };
         }
-        // END hack to pass e4x-literals untouched through the pretty-printing
 
         if (c === '<' && input.substring(parser_pos - 1, parser_pos + 3) === '<!--') {
             parser_pos += 3;
@@ -739,6 +738,7 @@ function js_beautify(js_source_text, options) {
                     }
                     set_mode('(EXPRESSION)');
                     print_token();
+                    if (options.pad_in_paren) print_single_space();
                     break;
                 }
 
@@ -806,6 +806,7 @@ function js_beautify(js_source_text, options) {
                 }
             }
             print_token();
+            if(options.pad_in_paren) print_single_space();
 
             break;
 
@@ -846,6 +847,7 @@ function js_beautify(js_source_text, options) {
                 }
             }
             restore_mode();
+            if(options.pad_in_paren) print_single_space();
             print_token();
             break;
 
